@@ -8,6 +8,8 @@ GameSpark is a school project for managing a game collection.
 
 Place the project folder in a directory served by Laravel Herd. Start Herd and open the project's URL from the Sites list.
 
+Create `config/config.php` with your local MySQL settings in `$dbHost`, `$dbPort`, `$dbName`, `$dbUser`, and `$dbPass`. Start MySQL and make sure the `gamespark` database exists before opening the site.
+
 ## Project structure
 
 ```text

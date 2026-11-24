@@ -27,3 +27,30 @@ h1 {
 p {
     margin: 8px 0px 0px;
 }
+
+.games-overview {
+    max-width: 960px;
+}
+
+.games-table-wrapper {
+    margin-top: 24px;
+    overflow-x: auto;
+}
+
+.games-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.games-table th,
+.games-table td {
+    padding: 12px;
+    border-bottom: 1px solid #c8c0c7;
+    vertical-align: top;
+}
+
+.game-image-url {
+    max-width: 200px;
+    overflow-wrap: anywhere;
+}
