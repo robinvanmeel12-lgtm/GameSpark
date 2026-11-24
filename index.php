@@ -1,18 +1,25 @@
 <?php
+$databaseUnavailable = false;
+
 try {
+    // 1. Verbinding
     require_once __DIR__ . '/config/conn.php';
 
-    $statement = $conn->prepare(
-        'SELECT name, platform, genre, release_year, status, rating, image_url
-         FROM gamedata
-         ORDER BY id DESC'
-    );
+    // 2. Query
+    $query = 'SELECT * FROM gamedata ORDER BY id DESC';
+
+    // 3. Prepare
+    $statement = $conn->prepare($query);
+
+    // 4. Execute
     $statement->execute();
+
+    // 5. FetchAll
     $games = $statement->fetchAll();
 } catch (RuntimeException $exception) {
     error_log('GameSpark could not load games: ' . $exception->getMessage());
     http_response_code(503);
-    exit('De database is tijdelijk niet beschikbaar.');
+    $databaseUnavailable = true;
 }
 ?>
 <!DOCTYPE html>
@@ -27,7 +34,13 @@ try {
     <main class="games-overview">
         <h1>GameSpark</h1>
 
-        <?php if ($games === []): ?>
+        <?php if ($databaseUnavailable): ?>
+            <section class="database-error" aria-labelledby="database-error-title">
+                <h2 id="database-error-title">Games tijdelijk niet beschikbaar</h2>
+                <p>Probeer het over een paar minuten opnieuw.</p>
+                <a class="database-error-retry" href="index.php">Opnieuw proberen</a>
+            </section>
+        <?php elseif ($games === []): ?>
             <p>Er zijn nog geen games opgeslagen.</p>
         <?php else: ?>
             <div class="games-table-wrapper">
