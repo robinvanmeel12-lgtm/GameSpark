@@ -1,80 +1,28 @@
 <?php
 
-require_once __DIR__ . '/app/helpers.php';
-
-$databaseUnavailable = false;
-
-try {
-    // 1. Verbinding
-    require_once __DIR__ . '/config/conn.php';
-
-    // 2. Query
-    $query = 'SELECT * FROM gamedata ORDER BY id DESC';
-
-    // 3. Prepare
-    $statement = $conn->prepare($query);
-
-    // 4. Execute
-    $statement->execute();
-
-    // 5. FetchAll
-    $games = $statement->fetchAll();
-} catch (RuntimeException $exception) {
-    error_log('GameSpark could not load games: ' . $exception->getMessage());
-    http_response_code(503);
-    $databaseUnavailable = true;
-}
+$pageTitle = 'GameSpark';
+$activePage = 'home';
+$query = 'SELECT * FROM gamedata ORDER BY id DESC LIMIT 3';
+require_once __DIR__ . '/app/load-games.php';
+require __DIR__ . '/resources/views/components/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameSpark</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <main class="games-overview">
-        <h1>GameSpark</h1>
-
-        <?php if ($databaseUnavailable): ?>
-            <section class="database-error" aria-labelledby="database-error-title">
-                <h2 id="database-error-title">Games tijdelijk niet beschikbaar</h2>
-                <p>Probeer het over een paar minuten opnieuw.</p>
-                <a class="database-error-retry" href="index.php">Opnieuw proberen</a>
-            </section>
-        <?php elseif ($games === []): ?>
-            <p>Er zijn nog geen games opgeslagen.</p>
-        <?php else: ?>
-            <div class="games-table-wrapper">
-                <table class="games-table" aria-label="Opgeslagen games">
-                    <thead>
-                        <tr>
-                            <th scope="col">Naam</th>
-                            <th scope="col">Platform</th>
-                            <th scope="col">Genre</th>
-                            <th scope="col">Releasejaar</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Beoordeling</th>
-                            <th scope="col">Afbeeldings-URL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($games as $game): ?>
-                            <tr>
-                                <td><?= escapeHtml($game['name']) ?></td>
-                                <td><?= escapeHtml($game['platform']) ?></td>
-                                <td><?= escapeHtml($game['genre'] ?? '—') ?></td>
-                                <td><?= (int) $game['release_year'] ?></td>
-                                <td><?= escapeHtml($game['status']) ?></td>
-                                <td><?= $game['rating'] === null ? '—' : escapeHtml($game['rating']) . ' / 10' ?></td>
-                                <td class="game-image-url"><?= escapeHtml($game['image_url'] ?? '—') ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+<main class="page-shell home-page" id="inhoud">
+    <section class="hero" aria-labelledby="home-title">
+        <div class="hero-content">
+            <h1 id="home-title">GameSpark</h1>
+            <p>Game reviews, ratings en een overzicht van toegevoegde games.</p>
+            <div class="hero-actions">
+                <a class="button button-primary" href="games.php">Bekijk Games</a>
+                <a class="button button-outline" href="#laatste-games">Laatste Games</a>
             </div>
-        <?php endif; ?>
-    </main>
+        </div>
+    </section>
+
+    <section class="recent-games" id="laatste-games" aria-labelledby="recent-title">
+        <h2 id="recent-title">Recent toegevoegde games</h2>
+        <?php require __DIR__ . '/resources/views/games/cards.php'; ?>
+        <a class="button button-secondary all-games-link" href="games.php">Bekijk Alle Games</a>
+    </section>
+</main>
 </body>
 </html>
