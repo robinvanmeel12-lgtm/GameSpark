@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . '/app/helpers.php';
+
 $databaseUnavailable = false;
 
 try {
@@ -59,13 +62,13 @@ try {
                     <tbody>
                         <?php foreach ($games as $game): ?>
                             <tr>
-                                <td><?= htmlspecialchars($game['name']) ?></td>
-                                <td><?= htmlspecialchars($game['platform']) ?></td>
-                                <td><?= htmlspecialchars($game['genre'] ?? '—') ?></td>
+                                <td><?= escapeHtml($game['name']) ?></td>
+                                <td><?= escapeHtml($game['platform']) ?></td>
+                                <td><?= escapeHtml($game['genre'] ?? '—') ?></td>
                                 <td><?= (int) $game['release_year'] ?></td>
-                                <td><?= htmlspecialchars($game['status']) ?></td>
-                                <td><?= $game['rating'] === null ? '—' : htmlspecialchars($game['rating']) . ' / 10' ?></td>
-                                <td class="game-image-url"><?= htmlspecialchars($game['image_url'] ?? '—') ?></td>
+                                <td><?= escapeHtml($game['status']) ?></td>
+                                <td><?= $game['rating'] === null ? '—' : escapeHtml($game['rating']) . ' / 10' ?></td>
+                                <td class="game-image-url"><?= escapeHtml($game['image_url'] ?? '—') ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
