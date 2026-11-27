@@ -153,6 +153,23 @@ button, input, select { color: inherit; font: inherit; }
     background: var(--alabaster);
 }
 
+.login-page { max-width: 440px; }
+
+.login-form { display: grid; gap: 16px; margin-top: 24px; }
+.login-field { display: grid; gap: 4px; }
+.login-field label { font-size: 0.875rem; font-weight: 650; }
+
+.login-field input {
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid #75646e;
+    border-radius: 8px;
+    background: #f5f1f4;
+}
+
+.login-form button { cursor: pointer; }
+
 .game-filters {
     display: flex;
     flex-wrap: wrap;

@@ -18,6 +18,7 @@
         <nav class="desktop-nav" aria-label="Hoofdnavigatie">
             <a href="index.php"<?= $activePage === 'home' ? ' aria-current="page"' : '' ?>>Home</a>
             <a href="games.php"<?= $activePage === 'games' ? ' aria-current="page"' : '' ?>>Games</a>
+            <a href="login.php"<?= $activePage === 'login' ? ' aria-current="page"' : '' ?>>Inloggen</a>
         </nav>
 
         <details class="mobile-menu">
@@ -25,6 +26,7 @@
             <nav aria-label="Mobiele navigatie">
                 <a href="index.php"<?= $activePage === 'home' ? ' aria-current="page"' : '' ?>>Home</a>
                 <a href="games.php"<?= $activePage === 'games' ? ' aria-current="page"' : '' ?>>Games</a>
+                <a href="login.php"<?= $activePage === 'login' ? ' aria-current="page"' : '' ?>>Inloggen</a>
             </nav>
         </details>
     </div>
